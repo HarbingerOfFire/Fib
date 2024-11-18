@@ -31,7 +31,7 @@ def FIB1(num):
         case 1: return 1
     return FIB1(num-1) + FIB1(num-2)
 ```
-This works in O(n) time, because it calculates up to the index. However, it still has to check the cache each time, which is it's own O(log(N)) operation, adding more time. 
+This works in O(n) time, because it calculates up to the index. However, it still has to check the cache each time, which is it's own O(N) operation, adding more time. 
 To fix this, we can implement the memory into the function itself by working from the other direction. Since we know the base case, we can work from those up to our index. This is not exactly how the sequence is defined, but still gives the same result. This method is called tabulation, or the bottom up method, and works in a true O(n) time. It can be seen like this:
 ```python3
 def FIB2(num):
