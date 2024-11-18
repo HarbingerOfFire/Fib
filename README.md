@@ -43,5 +43,5 @@ def FIB2(num):
 ```
 To really see the difference you can use a decorator like seen in [Fib.py](https://github.com/HarbingerOfFire/Fib/blob/main/Fib.py)
 
-##Extra: Fib-Cipher
+## Extra: Fib-Cipher
 One of my favorite things to do with a fibonacci sequence is to change the base case numbers from 0, 1. This creates different results. if the two numbers are in the fibonacci sequence already, then it just shifts the sequence over, but in cases where you use two random numbers, it can give wildly different numbers. So, you can initialize the sequence with a different set of base case values that act as a key, and then apply some sort of transformation based on the numbers. A simple example is shown in [Fib_cipher.py](https://github.com/HarbingerOfFire/Fib/blob/main/Fib_cipher.py)
