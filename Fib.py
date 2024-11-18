@@ -24,7 +24,7 @@ def cache(func):
         return res
     return inner
 
-#@cache
+@cache
 @time_func
 def FIB1(num):
     'recursive backtracking (top down)'
