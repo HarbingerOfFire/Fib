@@ -2,8 +2,12 @@ from secrets import randbelow
 
 class Fib:
     def __init__(self, base0:int=None, base1:int=None, random_value:int=None):
-        self.base=[base0 or randbelow(random_value or 256), base1 or randbelow(random_value or 256)]
-        self.org=self.base
+        self.base0=base0 or randbelow(random_value or 256)
+        self.base1=base1 or randbelow(random_value or 256)
+        self.base=[self.base0, self.base1]
+
+    def reset_base(self):
+        self.base=[self.base0, self.base1]
 
     def fib(self, index):
         for i in range(2,index+1):
@@ -11,7 +15,7 @@ class Fib:
         return self.base[-1]
     
     def cipher(self, buf:str):
-        self.base=self.org #reset the base set
+        self.reset_base()
         self.fib(len(buf)) #get the fib sequence values
         new=""
         for i,s in enumerate(buf):
@@ -19,7 +23,7 @@ class Fib:
         return new
 
     def decipher(self, ciphertext:str):
-        self.base=self.org #reset the base set
+        self.reset_base()
         self.fib(len(ciphertext)) # get the fib seuqence values
         new=""
         for i,s in enumerate(ciphertext):
