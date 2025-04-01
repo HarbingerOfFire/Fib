@@ -1,39 +1,42 @@
 from secrets import randbelow
 
-class Fib:
-    def __init__(self, base0:int=None, base1:int=None, random_value:int=None):
-        self.base0=base0 or randbelow(random_value or 256)
-        self.base1=base1 or randbelow(random_value or 256)
-        self.base=[self.base0, self.base1]
+class FibonacciCipher:
+    def __init__(self, base1:int=None, base2:int=None, rand:int=256):
+        self.base1 = base1 or randbelow(rand)
+        self.base2 = base2 or randbelow(rand)
+        self.base=[base1, base2]
 
-    def reset_base(self):
-        self.base=[self.base0, self.base1]
+    def reset(self):
+        self.base = [self.base1, self.base2]
 
-    def fib(self, index):
-        for i in range(2,index+1):
-            self.base.append(self.base[i-1]+self.base[i-2])
-        return self.base[-1]
+    def new(self, base1, base2):
+        self.base1 = base1
+        self.base2 = base2
+        self.reset()
     
-    def cipher(self, buf:str):
-        self.reset_base()
-        self.fib(len(buf)) #get the fib sequence values
-        new=""
-        for i,s in enumerate(buf):
-            new+=chr((ord(s)*self.base[i])) #simple transformation
-        return new
+    def _fibonacci(self, n):
+        for _ in range(n - 2):
+            self.base.append(self.base[-1] + self.base[-2])
 
-    def decipher(self, ciphertext:str):
-        self.reset_base()
-        self.fib(len(ciphertext)) # get the fib seuqence values
-        new=""
-        for i,s in enumerate(ciphertext):
-            new+=chr((ord(s)//self.base[i])) #simple reverse transformation
-        return new
+    def _cipher(self, text, shift):
+        return ''.join(chr((ord(char)+shift[i])%256) for i, char in enumerate(text))
+    
+    def encrypt(self, text):
+        self.reset()
+        self._fibonacci(len(text))
+        shift_values = self.base
+        return self._cipher(text,shift_values)
+    
+    def decrypt(self, text):
+        self.reset()
+        self._fibonacci(len(text))
+        shift_values = [-x for x in self.base]
+        return self._cipher(text,shift_values)
 
-
-new=Fib(13, 2) #the key is 13 and 2
-cipher=new.cipher("Hello World")
-decipher=new.decipher(cipher)
-
-print(f'''The ciphered text is {cipher}
-The deciphered text is {decipher}''')
+# Example Usage:
+cipher = FibonacciCipher()
+text ="Hello, World! 12345678"
+encrypted = cipher.encrypt(text)
+decrypted = cipher.decrypt(encrypted)
+print("Encrypted:", encrypted)
+print("Decrypted:", decrypted)
